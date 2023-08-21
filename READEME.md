@@ -1,0 +1,1 @@
+php artisan make:migration create_{table_name}_table --create={table_name}
