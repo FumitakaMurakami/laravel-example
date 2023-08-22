@@ -97,16 +97,14 @@
                     <table>
                         @foreach ($timeline as $dayKey=>$day)
                         <tbody>
-                            @foreach ($day as $subjectKey=>$subjects)
                             <tr>
-                                <th>{{ $subjectKey }}</th>
-                                @foreach ($subjects as $key=>$subject)
+                                <th>{{ $dayKey }}</th>
+                                @foreach ($day as $subjectKey=>$subject)
                                 <td>
                                     <input type="text" name="subjects[]" value="{{ $subject }}" />
                                 </td>
                                 @endforeach
                             </tr>
-                            @endforeach
                         </tbody>
                         @endforeach
                     </table>
