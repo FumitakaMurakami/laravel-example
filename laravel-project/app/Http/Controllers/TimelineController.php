@@ -28,7 +28,7 @@ class TimeLineController extends BaseController
         Log::info($userTimeline);
         Log::info('END - TimelineController::index');
 
-        return view('welcome')
+        return view('timeline')
             ->with(
                 [
                     'timeline' => $timelineArray
@@ -88,7 +88,7 @@ class TimeLineController extends BaseController
 
         Log::info('END - StaffAuthenticationController::registerTimeline');
 
-        return view('welcome')
+        return view('timeline')
             ->with(
                 [
                     'timeline' => $timeLineArray

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TimelineController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +17,21 @@ use App\Http\Controllers\TimelineController;
 */
 
 Route::get(
-    '/',
+    '/Timeline',
     [TimelineController::class, 'index']
 )->name('timeline');
 
 Route::post(
-    '/',
+    '/registerTimeline',
     [TimelineController::class, 'registerTimeline']
 )->name('registerTimeline');
+
+Route::get(
+    '/',
+    [LoginController::class, 'index']
+)->name('index');
+
+Route::post(
+    '/login',
+    [LoginController::class, 'login']
+)->name('login');
