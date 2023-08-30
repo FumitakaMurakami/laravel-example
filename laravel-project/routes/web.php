@@ -17,7 +17,7 @@ use App\Http\Controllers\LoginController;
 */
 
 Route::get(
-    '/Timeline',
+    '/timeline',
     [TimelineController::class, 'index']
 )->name('timeline');
 
