@@ -9,20 +9,23 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+//use外部の記述を使う
+
 
 class TimeLineController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function index(Request $request)
+    public function index(Request $request)//ここでuser_id取得
     {
         Log::info('START - TimelineController::index(Request $request)');
 
         $timeline = Timeline::latest('id')->first();
+        $userTimeline = Timeline::getUserTimeline(2);
         $timelineArray = json_decode($timeline->timeline, true);
         Log::info($timeline->timeline);
         Log::info(json_decode($timeline->timeline, true));
-
+        Log::info($userTimeline);
         Log::info('END - TimelineController::index');
 
         return view('welcome')
@@ -41,11 +44,45 @@ class TimeLineController extends BaseController
 
         $userId = $request->all()['user_id'];
         $subjects = $request->all()['subjects'];
+        /*LaravelのHTTPリクエストオブジェクトです。このオブジェクトは、Webアプリケーションに送信されたHTTPリクエストに関する情報を含んでいます。
+        リクエストのメソッド、URI、ヘッダー、クエリパラメータ、POSTデータなどの情報を取得するのに使用します。*/
+
         $timeline = new Timeline;
+        //これは"use App\Models\Timeline;"で読み込んだオブジェクトを使っているのか
 
         $jsonSubjects = self::parsTimeline($subjects);
+        //parsTimeline メソッドは、渡されたデータを処理し、JSON形式に変換するなどの特定の処理を行うメソッド
+
+
+        //insertを使ってデータベースに登録, user_idは1のまま、timelineは$jsonSubjects
+
+        $timeline->insert([
+            'user_id' => '1',
+            'timeline' => $jsonSubjects,
+        ]);
+
+        // Timeline::create([
+        //     'user_id' => '1',
+        //     'timeline' => $jsonSubjects,
+        // ]);
+
+
+          
+        /*$sql = "INSERT INTO timelines (user_id, timeline, deleted_at, created_at, updated_at)
+        VALUES (:user_id, :timeline, :deleted_at, :created_at, :updated_at)";
+        $user_Id = 1;
+        $timeLine = $jsonSubjects;
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':user_id', $userId);
+        $stmt->bindParam(':timeline', $timelineData);
+        $stmt->bindParam(':deleted_at', $deletedAt);
+        $stmt->bindParam(':created_at', $createdAt);
+        $stmt->bindParam(':updated_at', $updatedAt);    */
+    
 
         $newTimeline = $timeline->latest('id')->first();
+        /*$timelineテーブルのidが一番早いレコードを$newTimelineに入れている*/
         $timeLineArray = json_decode($newTimeline->timeline, true);
 
 

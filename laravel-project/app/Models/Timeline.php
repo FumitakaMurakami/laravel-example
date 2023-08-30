@@ -29,5 +29,30 @@ class Timeline extends Model
         'updated_at'
     ];
 
-   
+    public static function getAllTimeline() {  //最新のデータベースの情報をとってくるようにする
+        //$allTimeline = self::all();
+        //指定のuse_idを取得して、
+        $allTimeline = self::all();
+        return $allTimeline;
+    }
+
+    public static function getUserTimeline($userId) {  //最新のデータベースの情報をとってくるようにする
+        //$allTimeline = self::all();
+        //指定のuse_id(2)を取得して、
+
+        //$userTimeline = self::all();
+        $userTimeline = self::where('user_id', $userId)->get();
+        return $userTimeline;
+    }
 }
+
+
+//ブランチを新しく作る、enyaStudy
+//enyaStudyにチェックアウト
+//変更をadd
+//変更をcommit コメントを書く　作業内容
+//pushする
+
+//pullリクエストを発行
+//変更のタイトル、内容、誰に向けてか(main)
+//アサインメントは自分を登録
